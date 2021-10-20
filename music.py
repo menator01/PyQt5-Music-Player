@@ -1,4 +1,20 @@
-from functools import partial
+#! /usr/bin/env python3.9
+
+# PtQt5 Music Player
+# Copyright (C) 2021 menator01
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import os
 import sys
 from mutagen.mp3 import MP3
@@ -251,12 +267,18 @@ class Window(QMainWindow):
     # Get music metadata
     def meta_data(self):
         if self.player.isMetaDataAvailable():
-            self.artist.setText(self.player.metaData(QMediaMetaData.AlbumArtist))
-            self.album_title.setText(self._truncate(self.player.metaData(QMediaMetaData.AlbumTitle)))
-            self.track_title.setText(self._truncate(self.player.metaData(QMediaMetaData.Title)))
-            self.released.setText(f'{self.player.metaData(QMediaMetaData.Year)}')
-            self.genre.setText(self.player.metaData(QMediaMetaData.Genre))
-            self.track.setText(f'Track: {self._truncate(self.player.metaData(QMediaMetaData.Title),20)}')
+            if self.player.metaData(QMediaMetaData.AlbumArtist):
+                self.artist.setText(self.player.metaData(QMediaMetaData.AlbumArtist))
+            if self.player.metaData(QMediaMetaData.AlbumTitle):
+                self.album_title.setText(self._truncate(self.player.metaData(QMediaMetaData.AlbumTitle)))
+            if self.player.metaData(QMediaMetaData.Title):
+                self.track_title.setText(self._truncate(self.player.metaData(QMediaMetaData.Title)))
+            if self.player.metaData(QMediaMetaData.Year):
+                self.released.setText(f'{self.player.metaData(QMediaMetaData.Year)}')
+            if self.player.metaData(QMediaMetaData.Genre):
+                self.genre.setText(self.player.metaData(QMediaMetaData.Genre))
+            if self.player.metaData(QMediaMetaData.Title):
+                self.track.setText(f'Track: {self._truncate(self.player.metaData(QMediaMetaData.Title),20)}')
             if self.player.metaData(QMediaMetaData.CoverArtImage):
                 pixmap = QPixmap(self.player.metaData(QMediaMetaData.CoverArtImage))
                 pixmap = pixmap.scaled(int(pixmap.width()/3), int(pixmap.height()/3))
